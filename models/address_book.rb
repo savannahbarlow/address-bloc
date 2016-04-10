@@ -8,6 +8,18 @@ class AddressBook
     @entries = []
     end
 
+    # Import from a CSV file
+   def import_from_csv(file_name)
+     csv_text = File.read(file_name)
+     csv = CSV.parse(csv_text, headers: true, skip_blanks: true)
+
+     csv.each do |row|
+       row_hash = row.to_hash
+       add_entry(row_hash["name"], row_hash["phone_number"], row_hash["email"])
+     end
+   end
+
+    # Add an entry from AddressBook
     def add_entry(name, phone_number, email)
 
         index = 0
@@ -20,7 +32,7 @@ class AddressBook
         end
         entries.insert(index, Entry.new(name, phone_number, email))
     end
-
+      # Remove an entry from AddressBook
     def remove_entry(name,phone_number, email)
      delete_entry = nil
 
@@ -33,13 +45,24 @@ class AddressBook
      @entries.delete(delete_entry)
    end
 
-   def import_from_csv(file_name)
-     csv_text = File.read(file_name)
-     csv = CSV.parse(csv_text, headers: true, skip_blanks: true)
+    # Search AddressBook for a specific entry by name
+   def binary_search(name)
+     lower = 0
+     upper = entries.length - 1
 
-     csv.each do |row|
-       row_hash = row.to_hash
-       add_entry(row_hash["name"], row_hash["phone_number"], row_hash["email"])
+     while lower <= upper
+
+       mid = (lower + upper) / 2
+       mid_name = entries[mid].name
+
+       if name == mid_name
+         return entries[mid]
+
+       elsif name < mid_name
+         upper = mid -1
+      elsif name > mid_name
+         lower = mid + 1
+       end
      end
    end
 end
