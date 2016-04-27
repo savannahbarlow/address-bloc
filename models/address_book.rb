@@ -8,6 +8,10 @@ class AddressBook
     @entries = []
     end
 
+    def delete_all_entries
+      @entries = []
+    end
+
     # Import from a CSV file
    def import_from_csv(file_name)
      csv_text = File.read(file_name)

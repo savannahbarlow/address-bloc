@@ -148,4 +148,14 @@ RSpec.describe AddressBook do
         expect(book.entries.size).to eq 0
       end
     end
+
+    describe "delete_all_entries" do
+
+    it "deletes all entries in the AddressBook" do
+    book.add_entry("Bill Nye", "555-615-3515", "b.nye@scienceguy.com")
+    book.add_entry("Simon Says", "555-826-3467", "s.says@jumptherope.com")
+    book.delete_all_entries
+    expect(book.entries.size).to eq 0
+  end
+end
 end
